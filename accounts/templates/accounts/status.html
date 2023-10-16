@@ -1,0 +1,113 @@
+
+{% block content %}
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+ <style>
+  .dashboard-item {
+    flex: 1;
+    padding: 20px;
+    border: 1px solid #ccc;
+    margin-left: 10px;
+    margin-right: 10px;
+    box-sizing: border-box;
+  }
+  
+  
+.image-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); /* 3 columns */
+  gap: 20px; /* Gap between grid items */
+  padding: 20px;
+}
+
+.image {
+  position: relative;
+  overflow: hidden;
+  
+}
+
+.image img {
+  width: 100%;
+  height: 70%;
+  display: block;
+  transition: transform 0.3s;
+}
+
+
+.hoverable-text {
+  color: black;
+}
+
+/* Text color change on hover */
+.hoverable-text:hover {
+  color: red;
+}
+
+.hoverable-image {
+  width: 200px;
+  height: 150px;
+  transition: transform 0.3s ease-in-out;
+}
+
+/* Image scaling on hover */
+.hoverable-image:hover {
+  transform: scale(1.1);
+}
+
+</style>
+
+<div class ="dashboard-item">
+ 
+<div class="image">
+  
+<div class="image-grid">
+  {% for i in recipes %}
+  <div class = "card" style="width: auto;">
+  <div class = "card-body" style="width: auto">
+  <a href = "filtered_recipe/{{i.Recipe_name}}"><img class="hoverable-image" src="{{i.Image}}" ></a>
+  {% comment %} <img class="hoverable-image" src="{{i.Image}}" >  {% endcomment %}
+  <hr>
+  
+  <h4><a href="filtered_recipe/{{i.Recipe_name}}" class = "hoverable-text">{{i.Recipe_name}}</a></h4> 
+  <h5><i class="fas fa-clock"></i> {{i.time}} </h5>
+  {% if request.user.username == i.Recipe_Owner %}
+  <p><a class="btn btn-primary" href="{% url 'edit' i.Recipe_name %}"> Edit Recipe</a></p>
+  {% endif %}
+    
+  </div>
+</div>
+
+  {% endfor %}  
+
+</div>
+
+</div>
+
+
+</div>
+
+  <script>
+  const image = document.querySelector('.hoverable-image');
+  const originalSrc = image.src;
+  
+  const newSrc = originalSrc; // Replace with your image URL
+  
+  image.addEventListener('mouseover', () => {
+      image.src = newSrc;
+  });
+  
+  image.addEventListener('mouseout', () => {
+      image.src = originalSrc;
+  });
+
+});
+  
+</script>
+
+
+{% endblock content %}
+{% block footer%}
+
+
+{% endblock footer%} 

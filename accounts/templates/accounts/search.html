@@ -1,0 +1,46 @@
+{% extends 'accounts/form.html'%}
+{% block content %}
+<style>
+  .col {
+    column-count: 4;
+    column-gap: 40px;
+  }
+</style>
+   
+<div class ="dashboard-item">
+    <h3 style="padding: 20px"> Search Result : </h3>
+    {% if Recipe|length < 1 %}
+        {% block body %}<p> No search Results</p>{%endblock body%}
+
+        Your search query: <b>{{query}} </b> did not match any documents. <br>
+        Suggestions:
+        <ul>
+            <li>
+                Try different keywords.
+            </li>
+        {% endif %}
+   
+        
+          {% comment %} <div class="row"> {% endcomment %}
+            {% for i in Recipe %}  
+            <div class="col-sm">
+              <a href = "filtered_recipe/{{i.Recipe_name}}"><img class="hoverable-image" src="{{i.Image}}" ></a>
+              <br>
+              <br>
+              <h4><a href="filtered_recipe/{{i.Recipe_name}}" class = "hoverable-text">{{i.Recipe_name}}</a></h4>
+              <h4><a href="filtered_recipe/{{i.Recipe_name}}" class = "hoverable-text">{{i.user}}</a></h4>
+              <h4>Posted by : {{i.Recipe_Owner}}</h4>
+              <br>
+              <h7>{{i.description}}<h7>
+              <br>
+              <br>
+            </div>
+        
+          {% endfor %}
+        {% comment %} </div> {% endcomment %}
+        
+      
+   
+</div>
+{% endblock %}
+   

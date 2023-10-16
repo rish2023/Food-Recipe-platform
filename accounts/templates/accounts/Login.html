@@ -1,0 +1,32 @@
+
+{% extends 'accounts/form.html'%}
+{% block content %}
+
+    <div class="c-container">
+        <div class="card c-card">
+            <div class="card-body">
+                <h4 class="card-title text-center mb-4">Welcome Back!</h4>
+                <form  method ="POST" action="">
+                  {% csrf_token %}
+                    <div class="mb-3">
+                        <label for="username" class="form-label">Username</label>
+                        <input type="text" class="form-control" id="username" name="uname" placeholder="Enter your username">
+                    </div>
+                    <div class="mb-3">
+                        <label for="password" class="form-label">Password</label>
+                        <input type="password" class="form-control" id="password" name="pname" placeholder="Enter your password">
+                    </div>
+                    <button type="submit" class="btn btn-primary w-100">Login</button>
+                    {% for message in messages%}
+                    <p id = "messages">{{message}}</p>
+                    {% endfor %}
+                </form>
+            </div>
+            <div class="card-footer text-muted text-center">
+              <p>Don't have an account? <a href="{% url 'register' %}">Register here</a>.</p>
+            </div>
+        </div>
+    </div>
+
+  
+{% endblock content%}

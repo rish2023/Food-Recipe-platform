@@ -1,0 +1,155 @@
+{% extends 'accounts/main.html' %}
+{% load static %}
+{% block content %}
+
+<style>
+    /* Add styling as needed */
+    .hidden {
+        display: none;
+    }
+    
+    .popup-container {
+        background-color: #fff;
+        border-radius: 8px;
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+        max-width: 400px;
+        padding: 20px;
+        text-align: center;
+    }
+
+    .comment {
+        margin: 10px 0;
+    }
+
+    .close-button {
+        cursor: pointer;
+        color: #888;
+        font-size: 20px;
+        position: absolute;
+        top: 10px;
+        right: 15px;
+    }
+    .reply-container {
+        margin-left: 30px;
+    }
+    
+    .reply-input {
+        width: 100%;
+        padding: 5px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        margin-top: 5px;
+    }
+
+    .reply-button {
+        margin-top: 5px;
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        border-radius: 4px;
+        padding: 5px 10px;
+        cursor: pointer;
+    }
+
+</style>
+<br>
+<div class ="container">
+   
+    <div class ="row">
+    
+    
+    {% if recipes2 %}
+  
+    
+        <div class = "card " style="width: 35rem;">
+            
+    
+            
+        {% comment %} <div class= "card-body"> {% endcomment %}
+            <div class="col">
+                {% if recipes2.Image %}
+                <div class="card card-body">    
+                    <img src="{{recipes2.Image.url}}" alt="" >
+                </div>
+                {% endif %}
+                
+                <h3 class ="card-title m-1">{{recipes2.Recipe_name}}&nbsp;&nbsp;</h3>
+                {% comment %} {% if request.user.profile == recipes2.Recipe_Owner %} {% endcomment %}
+                <h6 class ="card-subtitle m-1">Posted by {{recipes2.Recipe_Owner}}</h6>
+                
+                <h5 class ="card-subtitle m-1">Recipe Type:&nbsp;{{recipes2.Recipe_Type}} </h5>
+                <br>
+                
+                <p class = "card-text m-1"><h3>Description</h3></p>
+                {{recipes2.description}}
+                <br>
+                <p class = "card-text m-1"><h4>Ingredients</h4></p>
+                {{recipes2.ingredients| linebreaks}}
+                
+                <h6 class ="card-subtitle m-1">Serving:&nbsp;{{recipes2.servings}}</h6>
+                
+                <h6 class ="card-subtitle m-1">Time:&nbsp;{{recipes2.time}}</h6>
+                
+                <h6 class ="card-subtitle m-1">Calories:&nbsp;{{recipes2.calories}}</h6>
+
+                <br>
+                <br>
+                
+                <br>
+                <br>
+
+            </div>                     
+        </div>
+        <div class = "card " style="width: 35rem;">
+            <div class="col"> 
+                <center><h4 class ="card-title m-1">How to make {{recipes2.Recipe_name}}</h4></center>
+                <h7 class ="card-subtitle m-1">&nbsp;{{recipes2.Steps| linebreaks}}</h7>
+                {% comment %} <h2> Comments</h2> {% endcomment %}
+                <!-- ... (other template content) ... -->
+                
+                <h2>Comments({{ num_comments }})</h2>
+                <br>
+                <br>
+
+                {% if not recipes2.comments.all %}
+                <p> No Comment added yet..</p>
+                {% else %}
+                {% for comment in recipes2.comments.all %}
+                <h3><strong>{{comment.username}}</strong></h3>
+                <p>{{comment.content}}</p>
+                <p><smaall>{{comment.timestamp}}</small></p>
+
+                {% if  request.user.profile.name == comment.username or request.user.is_staff  %}    
+
+                    {% comment %} <p><a class="btn btn-primary" href="{% url 'add-comment' recipes2.Recipe_name %}"> Add Comment</a></p> {% endcomment %}
+                    <p><a class="btn btn-danger" href="{% url 'delete-comment' recipes2.id %}"> delete Comment</a></p>
+                {% comment %} {% if request.user.profile == comment.username%} {% endcomment %}
+                
+                
+                {% endif %}    
+
+                {% endfor %}
+                {% endif %}
+                
+                <p><a class="btn btn-primary" href="{% url 'add-comment' recipes2.Recipe_name %}"> Add Comment</a></p>
+                
+<!-- ... (other template content) ... -->
+
+                
+            </div>
+        </div>
+
+    
+    {% else %}
+    <h2><center>You have not added any recipe till now</center></h2>
+    {% endif %}
+    </div>
+    
+
+</div>      
+
+
+
+{% endblock content%}
+
+
